@@ -2,7 +2,6 @@ from kombu import Exchange, Queue, Consumer
 from kombu.exceptions import DecodeError
 from celery import bootsteps
 
-
 class CustomConsumer:
     exchanges = {}
     queues = {}
