@@ -24,7 +24,7 @@ class FailureConsumer:
 
     def __check_unique(self, q):
         if self.consumers[q] is not None:
-            exit("Only on consumer is allowed for the 'failure.{q}' queue".format(q=q))
+            exit("Only one consumer is allowed for the 'failure.{q}' queue".format(q=q))
 
     def reject(self, app):
         # Check if reject consumer is already define (only on is allowed per worker)
