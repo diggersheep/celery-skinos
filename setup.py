@@ -36,6 +36,7 @@ setup(
     install_requires=libraries,
     dependency_links=dependency_links,
     long_description=long_description,
+    long_description_content_type="text/markdown",
     description='',
     author='di-dip-unistra',
     author_email='di-dip@unistra.fr',
