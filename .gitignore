@@ -110,3 +110,6 @@ venv.bak/
 *conf.json
 conf.json
 
+worker/
+worker/*
+

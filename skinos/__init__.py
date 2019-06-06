@@ -1,2 +1,1 @@
-from .custom_consumer import CustomConsumer
-from .failure_consumer import FailureConsumer
+VERSION = '0.2.0'
