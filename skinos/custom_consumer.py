@@ -9,6 +9,8 @@ from kombu.transport.pyamqp import Message
 from celery import bootsteps
 import sentry_sdk as sentry
 
+from skinos import VERSION
+
 
 class CustomConsumer:
     """Class for CustomConsumer"""
@@ -30,7 +32,7 @@ class CustomConsumer:
     # }
 
     @classmethod
-    def with_sentry(cls, __with_sentry: bool, _raise: object = True) -> Tuple[bool, bool]:
+    def with_sentry(cls, __with_sentry: bool, _raise: bool = True) -> Tuple[bool, bool]:
         """
         set sentry
         :param __with_sentry:
@@ -50,7 +52,7 @@ class CustomConsumer:
         return __with_sentry, _raise
 
     @classmethod
-    def add_exchange(cls, exchange_name: str, routing_key: str = '#') -> None:
+    def add_exchange(cls, exchange_name: str, routing_key: str = '#') -> Exchange:
         """
         Add exchange to an internal list (don't add if the exchange exists)
         Declare the exchange
@@ -67,6 +69,12 @@ class CustomConsumer:
                 type='topic',
                 routing_key=routing_key
             )
+        else:
+            raise RuntimeError('Topic already defined (ex: {ex}, b_key: {bk})'.format(
+                ex=exchange_name,
+                bk=routing_key
+            ))
+        return cls.exchanges[exchange_name]
 
     @classmethod
     def consumer(cls, exchange_name: str, queue_name: str, binding_key: str) -> Any:
@@ -157,7 +165,7 @@ class CustomConsumer:
 --\033[92;1m***********\033[0m--
 ---\033[92;1m*********\033[0m---
 ---------------'''.format(
-    version='0.0.1',
+    version=VERSION,
     sentry=cls._with_sentry,
     n_ex=len(cls.exchanges),
     n_q=len(cls.queues)
