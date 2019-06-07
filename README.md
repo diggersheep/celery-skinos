@@ -4,6 +4,10 @@ Custom consumer for celery integration.
 
 ## Usage
 
+```PYTHON
+from skinos.custom_consumer import CustomConsumer
+```
+
 ### Define a new exchange
 
 defined a new exchange with a name and a binding key (always a topic).
