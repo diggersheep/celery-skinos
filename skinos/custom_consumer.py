@@ -109,7 +109,7 @@ class CustomConsumer:
                     'binding_key': binding_key,
                     'consumer_id': cls.count,
                     'task_name': fun.__qualname__,
-                    'accept': ['json']
+                    'accept': ['json', 'text/plain']
                 }
             else:
                 exit(
