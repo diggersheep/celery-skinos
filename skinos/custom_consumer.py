@@ -229,9 +229,12 @@ class CustomConsumer:
                     raise
 
             # ACK if it's not a bool or is result is set to True
+            # TODO: Different behavious with the differents output
             if not isinstance(result, bool):
                 msg.ack()
             elif isinstance(result, bool) and result:
+                msg.ack()
+            else:
                 msg.ack()
 
             return result
