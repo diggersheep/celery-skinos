@@ -94,11 +94,12 @@ class CustomConsumer:
                     cls.exchanges[exchange_name],
                     binding_key
                 )
-                logger.debug('queue created (exchange: {ex}, queue: {q}, binding_key: {bk})'.format(
-                    ex=exchange_name,
-                    q=queue_name,
-                    bk=binding_key,
-                ))
+                logger.debug(
+                    'queue created (exchange: %s, queue: %s, binding_key: %s)',
+                    exchange_name,
+                    queue_name,
+                    binding_key,
+                )
 
             # ex.queue.fun_name
             if entry_name not in cls.meta_consumers:
@@ -133,6 +134,7 @@ class CustomConsumer:
     def build(cls, app: Any) -> None:
         """Build consumer from decorated tasks"""
 
+        # pylint: disable=W0613
         def get_consumers(self: Type[bootsteps.ConsumerStep], channel: Any) -> Any:
             return cls.__consumer_builder(channel)
 
@@ -211,6 +213,7 @@ class CustomConsumer:
                     n=function.__code__.co_argcount
                 ))
 
+        # pylint: disable=W0703
         def wrapper(body: str, msg: Type[Message]) -> Any:
             """
             wrapper
@@ -240,7 +243,7 @@ class CustomConsumer:
             return result
 
         wrapper.__name__ = 'wrapper_{}'.format(str(uuid.uuid4()).replace('-', ''))
-        logger.debug('new message handler {}'.format(wrapper.__name__))
+        logger.debug('new message handler %s', wrapper.__name__)
         return wrapper
 
     @classmethod
@@ -259,11 +262,10 @@ class CustomConsumer:
                 accept=meta_consumer['accept']
             ))
             logger.debug(
-                'Consumer created (exchange: {ex}, queue: {q}, binding_key: {bk})'.format(
-                    ex=meta_consumer['exchange_name'],
-                    q=meta_consumer['queue_name'],
-                    bk=meta_consumer['binding_key'],
-                )
+                'Consumer created (exchange: %s, queue: %s, binding_key: %s)',
+                meta_consumer['exchange_name'],
+                meta_consumer['queue_name'],
+                meta_consumer['binding_key'],
             )
 
         return consumers
