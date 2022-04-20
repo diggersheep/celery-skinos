@@ -11,7 +11,7 @@ from skinos.custom_consumer import CustomConsumer
 ### Define a new exchange
 
 defined a new exchange with a name and a binding key (always a topic).
-The exchanhge name must be unique.
+The exchange name must be unique.
 
 ```PYTHON
 # add_exchange(str, str) -> Exchange
