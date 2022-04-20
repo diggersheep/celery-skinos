@@ -1,4 +1,5 @@
 from setuptools import (find_packages, setup)
+import os
 
 from skinos import VERSION
 
@@ -7,9 +8,16 @@ with open('README.md') as f:
 
 NAME = "celery-skinos"
 
+
+def get_egg_name(name: str) -> str:
+    new_name: str = name.replace("-", "_")
+    return f"{new_name}.egg-info"
+
+
 def recursive_requirements(requirement_file, libs, links, path=''):
     if not requirement_file.startswith(path):
         requirement_file = os.path.join(path, requirement_file)
+
     with open(requirement_file) as requirements:
         for requirement in requirements.readlines():
             if requirement.startswith('-r'):
@@ -26,7 +34,9 @@ def recursive_requirements(requirement_file, libs, links, path=''):
                 libs.append(requirement)
 
 libraries, dependency_links = [], []
-recursive_requirements('requirements.txt', libraries, dependency_links)
+
+url: str = os.path.join(get_egg_name(NAME), "requires.txt")
+recursive_requirements(url, libraries, dependency_links)
 
 setup(
     name=NAME,
