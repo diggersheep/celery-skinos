@@ -166,37 +166,37 @@ class CustomConsumer:
 -\033[92;1m****\033[0m-----\033[92;1m****\033[0m-
 --\033[92;1m***********\033[0m--
 ---\033[92;1m*********\033[0m---
----------------'''.format(
-    version=VERSION,
-    sentry=cls._with_sentry,
-    n_ex=len(cls.exchanges),
-    n_q=len(cls.queues)
-)
-        print(hello_message)
+---------------\033[92;1m['''.format(
+            version=VERSION,
+            sentry=cls._with_sentry,
+            n_ex=len(cls.exchanges),
+            n_q=len(cls.queues)
+        )
+        for msg in hello_message.split("\n"):
+            logger.info(msg)
 
-        print('\033[92;1m[exchanges]')
+        logger.info("\033[92;1m[exchanges]")
         for _, exchange in cls.exchanges.items():
-            print(' .> {ex_name}'.format(ex_name=str(exchange).replace('Exchange ', '')))
-        print()
-
-        print('[queues]')
+            logger.info(" .> {ex_name}".format(ex_name=str(exchange).replace("Exchange ", "")))
+        logger.info("")
+        logger.info("[queues]")
         for _, queue in cls.queues.items():
-            print(' .> {q_name} (ex:{ex_name}, b_key: {bk})'.format(
+            logger.info(" .> {q_name} (ex:{ex_name}, b_key: {bk})".format(
                 q_name=queue.name,
                 ex_name=str(queue.exchange).replace('Exchange ', ''),
                 bk=queue.routing_key
             ))
-        print()
+        logger.info("")
 
-        print('[tasks]')
+        logger.info("[tasks]")
         for _, meta_consumer in cls.meta_consumers.items():
-            print(' .> {t_name} (ex: {ex_name}, q: {q_name}, b_key: {bk})'.format(
+            logger.info(" .> {t_name} (ex: {ex_name}, q: {q_name}, b_key: {bk})".format(
                 t_name=meta_consumer['task_name'],
                 ex_name=meta_consumer['exchange_name'],
                 q_name=meta_consumer['queue_name'],
                 bk=meta_consumer['binding_key']
             ))
-        print('\033[0m')
+        logger.info('\033[0m')
 
     @classmethod
     def __message_handler_builder(cls, function: Callable[[str, Type[Message]], Any]) -> Any:
