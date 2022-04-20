@@ -104,7 +104,7 @@ class CustomConsumer:
             # ex.queue.fun_name
             if entry_name not in cls.meta_consumers:
                 cls.meta_consumers[entry_name] = {
-                    'callbacks': [cls.__message_handler_builder(fun)],
+                    'callbacks': [cls._message_handler_builder(fun)],
                     'queue_name': queue_name,
                     'exchange_name': exchange_name,
                     'binding_key': binding_key,
@@ -136,7 +136,7 @@ class CustomConsumer:
 
         # pylint: disable=W0613
         def get_consumers(self: Type[bootsteps.ConsumerStep], channel: Any) -> Any:
-            return cls.__consumer_builder(channel)
+            return cls._consumer_builder(channel)
 
         consumer_step = type(
             'CustomConsumer',
@@ -199,7 +199,7 @@ class CustomConsumer:
         logger.info('\033[0m')
 
     @classmethod
-    def __message_handler_builder(cls, function: Callable[[str, Type[Message]], Any]) -> Any:
+    def _message_handler_builder(cls, function: Callable[[str, Type[Message]], Any]) -> Any:
         """
         decorator for message handler
         :param function:
@@ -247,7 +247,7 @@ class CustomConsumer:
         return wrapper
 
     @classmethod
-    def __consumer_builder(cls, channel: Any) -> List[Consumer]:
+    def _consumer_builder(cls, channel: Any) -> List[Consumer]:
         consumers = []
         for _, meta_consumer in cls.meta_consumers.items():
             queue_key = '{ex}{sep}{q}'.format(
