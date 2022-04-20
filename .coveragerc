@@ -1,0 +1,6 @@
+[run]
+omit =
+    .tox/*
+    venv/*
+    test/*
+    tests/*
