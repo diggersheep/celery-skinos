@@ -1,4 +1,8 @@
-"""Celery worker base"""
+"""
+Celery worker base
+
+for test: celery -A demo.celery worker -l info
+"""
 
 from celery import Celery
 import sentry_sdk as sentry
@@ -6,15 +10,19 @@ import sentry_sdk as sentry
 # sentry integration for classic tasks
 from sentry_sdk.integrations.celery import CeleryIntegration
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
 # custom customer class
 from skinos.custom_consumer import CustomConsumer
 
+
 CELERY_BROKER = "amqp://{user}:{password}@{host}:{port}{vhost}".format(
-    user='test',
-    password='test',
+    user='guest',
+    password='guest',
     host='127.0.0.1',
     port='5672',
-    vhost='/test'
+    vhost='/'
 )
 BROKER_TRANSPORT_OPTIONS = {'confirm_public': True}
 
@@ -28,10 +36,10 @@ app = Celery(
 app.config_from_object(BROKER_TRANSPORT_OPTIONS)
 
 # Init sentry
-sentry.init(
-    "my_projet_key",
-    integrations=[CeleryIntegration()]
-)
+# sentry.init(
+#     "my_projet_key",
+#     integrations=[CeleryIntegration()]
+# )
 
 ############################################
 #################  SKINOS  #################
