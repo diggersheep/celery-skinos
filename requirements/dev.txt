@@ -1,0 +1,6 @@
+-r common.txt
+pylint>=2.3.1
+mypy>=0.7
+coverage
+black
+

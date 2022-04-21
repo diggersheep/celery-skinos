@@ -1,0 +1,2 @@
+celery>=4.2.0
+sentry_sdk>=0.8
