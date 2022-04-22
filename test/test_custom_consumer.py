@@ -16,6 +16,22 @@ class Message:
         pass
 
 
+class App:
+    """MOCK"""
+
+    class Add:
+        data = []
+
+        def add(self, data):
+            self.data.append(data)
+
+    steps = {"consumer": Add()}
+
+    def __init__(self):
+        pass
+
+
+
 class TestCustomConsumer(unittest.TestCase):
 
     def setUp(self):
@@ -109,8 +125,6 @@ class TestCustomConsumer(unittest.TestCase):
         self.assertEqual(meta_consumer["binding_key"], routing_key)
         self.assertEqual(meta_consumer["consumer_id"], CustomConsumer.count - 1)
 
-        print(CustomConsumer.meta_consumers[entry_name])
-
     def test__consumer_builder__raise(self):
         exchange_name = str(uuid4())
         queue_name = str(uuid4())
@@ -133,10 +147,36 @@ class TestCustomConsumer(unittest.TestCase):
         routing_key = str(uuid4())
         entry_name = f"{exchange_name}{CustomConsumer.sep}{queue_name}"
 
-        # ex = CustomConsumer.add_exchange(exchange_name, routing_key)
-        #
-        # @CustomConsumer.consumer(exchange_name, queue_name, routing_key)
-        # def fun(a, b):
-        #     return 10
-        #
-        # consumers = CustomConsumer._consumer_builder(None)
+        ex = CustomConsumer.add_exchange(exchange_name, routing_key)
+
+        @CustomConsumer.consumer(exchange_name, queue_name, routing_key)
+        def fun(a, b):
+            return 10
+
+        consumers = CustomConsumer._consumer_builder(None)
+
+        self.assertEqual(len(consumers), 1)
+        consumer = consumers[0]
+        self.assertEqual(len(consumer.queues), 1)
+        self.assertEqual(consumer.queues[0].name, queue_name)
+
+        for s in ["application/json", "text/plain"]:
+            self.assertIn(s, consumer.accept)
+
+
+    def test__build(self):
+        exchange_name = str(uuid4())
+        queue_name = str(uuid4())
+        routing_key = str(uuid4())
+        entry_name = f"{exchange_name}{CustomConsumer.sep}{queue_name}"
+
+        ex = CustomConsumer.add_exchange(exchange_name, routing_key)
+
+        @CustomConsumer.consumer(exchange_name, queue_name, routing_key)
+        def fun(a, b):
+            return 10
+
+        app = App()
+        CustomConsumer.build(app)
+
+        self.assertEqual(app.steps["consumer"].data[0].name, "CustomConsumer")
