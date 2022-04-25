@@ -1,9 +1,15 @@
-"""Skinos"""
+"""
+Skinos
+"""
+# pylint: disable=C0330,W1202
+# - C0330: wrong number of space in indentation
+# - W1202: Dangerous default value
 
 from typing import Dict, Any, Callable, Type, List, Tuple
 import logging as logger
 
 import uuid
+import sys
 from kombu import Exchange, Queue, Consumer
 from kombu.transport.pyamqp import Message
 from celery import bootsteps
@@ -113,7 +119,7 @@ class CustomConsumer:
                     "accept": ["json", "text/plain"],
                 }
             else:
-                exit(
+                sys.exit(
                     'Error - For function "{name}" - {msg} {sub_msg}'.format(
                         msg="A task already exists for this configuration",
                         sub_msg="(ex: {ex_name}, q: {q_name}, binding_key: {bk})".format(
@@ -216,7 +222,7 @@ class CustomConsumer:
         """
         # Check arguments count
         if function.__code__.co_argcount < 2:
-            exit(
+            sys.exit(
                 'Error - In function "{name}" - too few arguments (except 2, received: {n})'.format(
                     name=function.__qualname__, n=function.__code__.co_argcount
                 )

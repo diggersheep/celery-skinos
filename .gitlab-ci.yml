@@ -40,3 +40,12 @@ pytype:
   script:
     - pip install -r requirements/dev.txt
     - pytype
+
+
+pylint:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - pylint --fail-under=8 skinos/custom_consumer.py
