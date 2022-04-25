@@ -32,3 +32,11 @@ bandit:
   script:
     - pip install -r requirements/dev.txt
     - bandit --exit-zero skinos/custom_consumer.py
+
+pytype:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install pytype
+    - pytype
