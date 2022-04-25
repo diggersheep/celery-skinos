@@ -9,7 +9,26 @@ unittest:
     - pip install -r requirements/dev.txt
     - coverage erase && coverage run -m unittest test.test_custom_consumer.TestCustomConsumer && coverage report
 
+black:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - black --check .
 
+safety:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - safety check
 
-
-
+bandit:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - bandit --exit-zero skinos/custom_consumer.py
