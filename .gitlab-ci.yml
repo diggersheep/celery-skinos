@@ -6,8 +6,8 @@ unittest:
   tags:
     - python3.9
   script:
-    - pip3 install tox
-    - tox
+    - pip install -r requirements/dev.txt
+    - coverage erase && coverage run -m unittest test.test_custom_consumer.TestCustomConsumer && coverage report
 
 
 
