@@ -15,7 +15,7 @@ black:
     - python3.9
   script:
     - pip install -r requirements/dev.txt
-    - black --check .
+    - black --check skinos/custom_consumer.py
 
 safety:
   stage: test
