@@ -36,6 +36,7 @@ def recursive_requirements(requirement_file, libs, links, path=''):
 libraries, dependency_links = [], []
 
 url: str = os.path.join(get_egg_name(NAME), "requires.txt")
+url = "requirements.txt"
 recursive_requirements(url, libraries, dependency_links)
 
 setup(
