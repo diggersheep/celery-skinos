@@ -4,4 +4,4 @@ coverage
 black
 safety
 bandit
-pylint
+pytype
