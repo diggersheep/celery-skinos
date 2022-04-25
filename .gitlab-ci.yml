@@ -4,7 +4,7 @@ stages:
 unittest:
   stage: test
   tags:
-    - python3.10
+    - python3.9
   script:
     - pip3 install tox
     - tox
