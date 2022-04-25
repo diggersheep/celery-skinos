@@ -38,5 +38,5 @@ pytype:
   tags:
     - python3.9
   script:
-    - pip install pytype
+    - pip install -r requirements/dev.txt
     - pytype
