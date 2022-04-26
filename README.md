@@ -1,6 +1,5 @@
 # Celery Skinos
 
-
 Custom consumer for celery integration.
 
 ## Usage
