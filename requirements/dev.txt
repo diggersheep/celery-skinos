@@ -1,7 +1,11 @@
 -r common.txt
 
 coverage
+
+pytype
+
 black
+pylint
+
 safety
 bandit
-pytype
