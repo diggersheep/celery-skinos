@@ -1,0 +1,54 @@
+stages:
+  - test
+
+unittest:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install tox
+    - tox
+
+black:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - black --check skinos/custom_consumer.py
+
+safety:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - safety check
+
+bandit:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - bandit --exit-zero skinos/custom_consumer.py
+
+pytype:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - pytype
+
+
+pylint:
+  stage: test
+  tags:
+    - python3.9
+  script:
+    - pip install -r requirements/dev.txt
+    - pylint --fail-under=8 skinos/custom_consumer.py
+  only:
+    - master
+    - develop
